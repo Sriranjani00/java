@@ -1,2 +1,0 @@
-# java
-learning new ideas 
