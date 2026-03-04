@@ -1,0 +1,35 @@
+class Solution {
+    public boolean isMatch(String s, String p) {
+        // Boolean object array for memoization: null = unvisited, true/false = result
+        Boolean[][] memo = new Boolean[s.length() + 1][p.length() + 1];
+        return dp(0, 0, s, p, memo);
+    }
+
+    private boolean dp(int i, int j, String s, String p, Boolean[][] memo) {
+        if (memo[i][j] != null) return memo[i][j];
+        
+        boolean result;
+        // Base case: if we reached the end of the pattern
+        if (j == p.length()) {
+            result = (i == s.length());
+        } else {
+            // Check if current characters match
+            boolean firstMatch = (i < s.length() && 
+                                 (p.charAt(j) == s.charAt(i) || p.charAt(j) == '.'));
+
+            // If the next character in pattern is '*'
+            if (j + 1 < p.length() && p.charAt(j + 1) == '*') {
+                // Two options:
+                // 1. Skip the '*' and its preceding element (match zero times)
+                // 2. If first char matches, move to next char in 's' and stay at '*' (match one+ times)
+                result = dp(i, j + 2, s, p, memo) || 
+                         (firstMatch && dp(i + 1, j, s, p, memo));
+            } else {
+                // No '*', proceed to next characters in both s and p
+                result = firstMatch && dp(i + 1, j + 1, s, p, memo);
+            }
+        }
+        
+        return memo[i][j] = result;
+    }
+}
