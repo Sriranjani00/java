@@ -1,0 +1,23 @@
+class Solution {
+    public int reverse(int x) {
+        long reversed = 0; // Use long to detect overflow before casting back to int
+        
+        while (x != 0) {
+            // Pop the last digit
+            int lastDigit = x % 10;
+            // Append it to the reversed number
+            reversed = (reversed * 10) + lastDigit;
+            // Move to the next digit
+            x /= 10;
+        }
+        
+        // Check if the result is outside the 32-bit integer range
+        if (reversed < Integer.MIN_VALUE || reversed > Integer.MAX_VALUE) {
+            return 0;
+        }
+        
+        return (int) reversed;
+    }
+}
+
+
