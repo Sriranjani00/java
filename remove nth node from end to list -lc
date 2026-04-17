@@ -1,0 +1,25 @@
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        // Use a dummy node to simplify edge cases like removing the head
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode fast = dummy;
+        ListNode slow = dummy;
+
+        // Move fast pointer n + 1 steps ahead
+        for (int i = 0; i <= n; i++) {
+            fast = fast.next;
+        }
+
+        // Move both pointers until fast reaches the end
+        while (fast != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+
+        // Slow is now pointing to the node BEFORE the one to be removed
+        slow.next = slow.next.next;
+
+        return dummy.next;
+    }
+}
