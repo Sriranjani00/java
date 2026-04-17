@@ -1,0 +1,25 @@
+class Solution {
+    public ListNode swapPairs(ListNode head) {
+        // Dummy node acts as the predecessor of the head
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode point = dummy;
+
+        // Ensure there are at least two nodes to swap
+        while (point.next != null && point.next.next != null) {
+            // Identify the two nodes to swap
+            ListNode first = point.next;
+            ListNode second = point.next.next;
+
+            // Perform the swap
+            first.next = second.next;
+            second.next = first;
+            point.next = second;
+
+            // Move the pointer two nodes ahead for the next pair
+            point = first;
+        }
+
+        return dummy.next;
+    }
+}
