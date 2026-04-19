@@ -1,0 +1,43 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+    public String getPermutation(int n, int k) {
+        List<Integer> numbers = new ArrayList<>();
+        int[] factorial = new int[n + 1];
+        factorial[0] = 1;
+
+        // Step 1: Precompute factorials and initialize numbers list
+        for (int i = 1; i <= n; i++) {
+            factorial[i] = factorial[i - 1] * i;
+            numbers.add(i);
+        }
+
+        // Step 2: Adjust k to be 0-indexed
+        k--;
+
+        StringBuilder result = new StringBuilder();
+
+        // Step 3: Iteratively find each digit
+        for (int i = n; i > 0; i--) {
+            // Find how many permutations start with the same digit
+            int fact = factorial[i - 1];
+            int index = k / fact;
+            
+            // Append the selected digit and remove it from available pool
+            result.append(numbers.get(index));
+            numbers.remove(index);
+            
+            // Update k for the next position
+            k %= fact;
+        }
+
+        return result.toString();
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        System.out.println(sol.getPermutation(3, 3)); // Output: "213"
+        System.out.println(sol.getPermutation(4, 9)); // Output: "2314"
+    }
+}
