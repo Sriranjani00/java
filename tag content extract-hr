@@ -1,0 +1,34 @@
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class TagContentParser {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int testCases = Integer.parseInt(in.nextLine());
+        
+        // Regex: <tag>content</tag>
+        // Group 1: tag name, Group 2: content
+        String regex = "<([^<>]+)>([^<>]+)</\\1>";
+        Pattern pattern = Pattern.compile(regex);
+
+        while (testCases > 0) {
+            String line = in.nextLine();
+            Matcher matcher = pattern.matcher(line);
+            boolean found = false;
+
+            while (matcher.find()) {
+                // matcher.group(2) contains the valid content
+                System.out.println(matcher.group(2));
+                found = true;
+            }
+
+            if (!found) {
+                System.out.println("None");
+            }
+            
+            testCases--;
+        }
+        in.close();
+    }
+}
